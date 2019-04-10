@@ -6,3 +6,23 @@
   stroke-opacity: 0.8;
   stroke-width: 2;
 }
+.labelContainer {
+  display: flex;
+  flex-direction: column;
+  /* background-color: #faf7f4; */
+  color: #5f5f5f;
+  font-size: 12px;
+  font-family: 'Open Sans', Gotham, gotham, Tahoma, Geneva, sans-serif;
+  box-shadow: 0 1px #ccc;
+  margin: 1px;
+}
+.circle {
+  background-color: red;
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  z-index: 100;
+}
+.circle:hover {
+  background-color: green;
+}
