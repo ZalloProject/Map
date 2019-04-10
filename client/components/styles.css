@@ -1,5 +1,8 @@
-/* .mapContainer {
-  height: 500px;
-  width: 100%;
-  background-color: black;
-} */
+.marker {
+  /* background-color: black; */
+  /* fill: black; */
+  fill-opacity: 0;
+  stroke: #0000ff;
+  stroke-opacity: 0.8;
+  stroke-width: 2;
+}
