@@ -22,7 +22,9 @@ class CustomMarker extends React.Component {
           onMouseOut={e => {
             this.setState({ hovered: false });
           }}
-          onClick={e => console.log(this.props.house)}
+          onClick={e => {
+            window.dispatchEvent(new CustomEvent('house_view', { detail: { houseView: true } }));
+          }}
           icon={{
             url: '',
             scaledSize: new google.maps.Size(10, 10)

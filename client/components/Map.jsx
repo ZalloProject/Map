@@ -5,6 +5,7 @@ import { GoogleMap, withGoogleMap, withScriptjs, Circle } from 'react-google-map
 import Marker from './Marker.jsx';
 const ZalloMap = ({ houses, lat, lng, hoverChange }) => {
   let key = 0;
+  console.log(houses);
   return (
     <GoogleMap defaultZoom={10} defaultCenter={{ lat, lng }}>
       {houses

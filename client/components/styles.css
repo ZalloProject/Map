@@ -22,6 +22,7 @@
   font-family: 'Open Sans', Gotham, gotham, Tahoma, Geneva, sans-serif;
   box-shadow: 0 1px #ccc;
   border-radius: 3px;
+  z-index: 10;
 }
 
 .labelPriceHover {
@@ -35,6 +36,7 @@
   font-family: 'Open Sans', Gotham, gotham, Tahoma, Geneva, sans-serif;
   box-shadow: 0 1px #ccc;
   border-radius: 3px;
+  z-index: 100000;
 }
 .circle {
   background-color: #fc4053;
@@ -44,6 +46,7 @@
   border: 2px solid #fffefe;
   z-index: 100;
   box-shadow: 1px 1px #ccc;
+  z-index: 10;
 }
 .circleHover {
   background-color: #00c853;
@@ -53,6 +56,7 @@
   border: 2px solid #fffefe;
   z-index: 100;
   box-shadow: 1px 1px #ccc;
+  z-index: 100000;
 }
 .infoBoxContainer {
   display: flex;
@@ -68,4 +72,12 @@
 }
 .containerMid {
   display: flex;
+}
+.bigBOX {
+  display: flex;
+}
+.xOut {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
 }
