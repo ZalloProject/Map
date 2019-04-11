@@ -24,11 +24,26 @@ const similarHomesSchema = mongoose.Schema({
   createdAt: { type: Date, required: true, default: Date.now },
   pictureURL: String,
   lat: Number,
-  lng: Number
+  lng: Number,
+  homeType: String
 });
-
+let types = ['houses', 'houses', 'houses', 'houses', 'apts', 'condos', 'townHomes'];
 const SimilarHome = mongoose.model('SimilarHome', similarHomesSchema);
-
+SimilarHome.find({}, (err, docs) => {
+  if (err) {
+    cb(err);
+  } else {
+    for (let doc of docs) {
+      SimilarHome.findOneAndUpdate(
+        { _id: doc._id },
+        { homeType: types[Math.floor(Math.random() * types.length)] },
+        (err, doc) => {
+          console.log(err, doc);
+        }
+      );
+    }
+  }
+});
 const getAllHomes = cb => {
   SimilarHome.find({}, (err, docs) => {
     if (err) {
