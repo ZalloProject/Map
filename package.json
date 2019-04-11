@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack --config ./webpack.config.js --watch  --mode development & nodemon ./server/index.js"
+    "start": "webpack --config ./webpack.config.js --watch  --mode development & nodemon ./server/index.js",
+    "test": "mocha ./public/test-bundle.js --require ./testSetup.js"
   },
   "repository": {
     "type": "git",
@@ -35,6 +36,7 @@
     "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-react": "^7.12.4",
     "express": "^4.16.4",
+    "isomorphic-fetch": "^2.2.1",
     "jsdom": "^14.0.0",
     "jsdom-global": "^3.0.2",
     "leaflet": "^1.4.0",
@@ -47,6 +49,7 @@
     "react-google-maps": "^9.4.5",
     "recompose": "^0.30.0",
     "request": "^2.88.0",
+    "sinon": "^7.3.1",
     "style-loader": "^0.23.1",
     "supertest": "^4.0.2",
     "webpack": "^4.29.6",
