@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const getAllHomes = require('../db/index');
+// const getAllHomes = require('../db/index');
 
 app.use(express.static('./public'));
 
