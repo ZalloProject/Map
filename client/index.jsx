@@ -1,5 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import HouseFilter from './components/HouseFilter.jsx';
+import HouseMap from './components/HouseMap.jsx';
 
-ReactDOM.render(<HouseFilter />, document.getElementById('map'));
+ReactDOM.render(<HouseMap />, document.getElementById('map'));
