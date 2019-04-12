@@ -24,7 +24,6 @@
   border-radius: 3px;
   z-index: 10;
 }
-
 .labelPriceHover {
   background-color: #00c853;
   width: 36px;
@@ -66,7 +65,6 @@
 .price {
   font-weight: bold;
 }
-
 .textContainer {
   margin-left: 5px;
 }
