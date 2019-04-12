@@ -37,7 +37,9 @@ export default compose(
     googleMapURL:
       'https://maps.googleapis.com/maps/api/js?key=AIzaSyAktQ4K--QUuTF-hgM5SJQzOCvQ894dqgo',
     loadingElement: <div style={{ height: `100%` }} />,
-    containerElement: <div style={{ height: `60vh`, width: `50vw` }} />,
+    containerElement: (
+      <div className="googleMapContainer" style={{ height: `85vh`, width: `55vw` }} />
+    ),
     mapElement: <div style={{ height: `100%` }} />
   }),
   withScriptjs,

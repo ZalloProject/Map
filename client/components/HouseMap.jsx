@@ -35,10 +35,11 @@ class HouseMap extends React.Component {
     window.addEventListener('beds_change', e => this.updateFilter(e));
     window.addEventListener('price_change', e => this.updateFilter(e));
     window.addEventListener('options', e => this.updateFilter(e));
-    window.addEventListener('house_view', e => this.setState({ houseView: e.detail.houseView }));
+    window.addEventListener('house_view', e => {
+      this.setState({ houseView: e.detail.houseView });
+    });
   }
   updateFilter(e) {
-    console.log(e);
     this.setState({ filter: e.type, filterDetail: e.detail }, () => {
       this.filterHouses();
     });
@@ -64,10 +65,12 @@ class HouseMap extends React.Component {
       case 'options': {
         let houses = this.state.houses;
         houses = houses.filter(house => this.state.filterDetail.options.includes(house.homeType));
-        this.setState({ filteredHouses: houses }, () => console.log(this.state.filteredHouses));
+        this.setState({ filteredHouses: houses });
+        break;
       }
       case null: {
         this.setState({ filteredHouses: this.state.houses });
+        break;
       }
     }
   }
@@ -91,19 +94,13 @@ class HouseMap extends React.Component {
           style={
             this.state.houseView
               ? {
-                  width: '80%',
-                  height: '100%',
-                  position: 'absolute',
-                  top: 0,
-                  left: '5%',
-                  backgroundColor: 'white',
-                  padding: '5px'
+                  display: ''
                 }
               : { display: 'none' }
           }
         >
           <div className={style.bigBOX}>
-            <div>
+            <div id="popContainer">
               <div id="photos" />
               <div className={style.containerMid}>
                 <div id="gendesc" />
