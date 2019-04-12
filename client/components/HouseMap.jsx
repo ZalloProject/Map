@@ -1,63 +1,98 @@
 import React from 'react';
 import style from './styles.css';
 import ZalloMap from './Map.jsx';
+import _ from 'lodash';
 
 class HouseMap extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      houses: null,
+      houses: props.houses || null,
       filteredHouses: null,
       markerHovered: false,
-      houseView: false
+      houseView: false,
+      filter: null,
+      filterDetail: null,
+      bounds: null
     };
+    this.debouncedFetch = _.debounce(() => {
+      let { south, north, east, west } = this.state.bounds;
+      fetch(
+        `http://zallosimilarhomesservice-env.3cy6gkds47.us-east-2.elasticbeanstalk.com/homesByCoord/${south}&${north}&${east}&${west}`
+      )
+        .then(res => res.json())
+        .then(houses => this.setState({ houses }))
+        .then(() => this.filterHouses())
+        .then(() =>
+          window.dispatchEvent(new CustomEvent('houses', { detail: { houses: this.state.houses } }))
+        );
+    }, 1000);
   }
   componentWillMount() {
     fetch('http://zallosimilarhomesservice-env.3cy6gkds47.us-east-2.elasticbeanstalk.com/homes')
       .then(res => res.json())
       .then(houses => this.setState({ houses, filteredHouses: houses }));
-    window.addEventListener('beds_change', e => this.filterHouses(e));
-    window.addEventListener('price_change', e => this.filterHouses(e));
-    window.addEventListener('options', e => this.filterHouses(e));
+    window.addEventListener('beds_change', e => this.updateFilter(e));
+    window.addEventListener('price_change', e => this.updateFilter(e));
+    window.addEventListener('options', e => this.updateFilter(e));
     window.addEventListener('house_view', e => this.setState({ houseView: e.detail.houseView }));
   }
-  filterHouses(e) {
-    window.houses = this.state.houses;
-
-    switch (e.type) {
+  updateFilter(e) {
+    console.log(e);
+    this.setState({ filter: e.type, filterDetail: e.detail }, () => {
+      this.filterHouses();
+    });
+  }
+  filterHouses() {
+    switch (this.state.filter) {
       case 'beds_change': {
         let houses = this.state.houses;
-        houses = houses.filter(house => house.beds >= e.detail.beds);
+        houses = houses.filter(house => house.beds >= this.state.filterDetail.beds);
         this.setState({ filteredHouses: houses });
         break;
       }
       case 'price_change': {
         let houses = this.state.houses;
         houses = houses.filter(
-          house => house.price >= e.detail.low && house.price <= e.detail.high
+          house =>
+            house.price >= this.state.filterDetail.low &&
+            house.price <= this.state.filterDetail.high
         );
         this.setState({ filteredHouses: houses });
         break;
       }
       case 'options': {
         let houses = this.state.houses;
-        houses = houses.filter(house => e.detail.options.includes(house.homeType));
-        this.setState({ filteredHouses: houses });
+        houses = houses.filter(house => this.state.filterDetail.options.includes(house.homeType));
+        this.setState({ filteredHouses: houses }, () => console.log(this.state.filteredHouses));
+      }
+      case null: {
+        this.setState({ filteredHouses: this.state.houses });
       }
     }
+  }
+
+  boundsChange(bounds) {
+    this.setState({ bounds }, this.debouncedFetch);
   }
   render() {
     return (
       <div>
-        <ZalloMap houses={this.state.filteredHouses} lat={33.4} lng={-111.9} />
+        <ZalloMap
+          houses={this.state.filteredHouses}
+          tilesLoaded={this.props.tilesLoaded}
+          lat={33.4}
+          lng={-111.9}
+          boundsChange={this.boundsChange.bind(this)}
+        />
         <div
+          id="mainContainer"
           className={style.mainContainer}
           style={
             this.state.houseView
               ? {
-                  width: '1000px',
-                  zIndex: 1000,
-                  height: '1000px',
+                  width: '80%',
+                  height: '100%',
                   position: 'absolute',
                   top: 0,
                   left: '5%',
@@ -67,7 +102,6 @@ class HouseMap extends React.Component {
               : { display: 'none' }
           }
         >
-          {/* <p style={{ fontSize: '100px' }}>REFRESH FOR NEW HOUSE</p> */}
           <div className={style.bigBOX}>
             <div>
               <div id="photos" />
@@ -85,7 +119,6 @@ class HouseMap extends React.Component {
                 )
               }
             >
-              {' '}
               X
             </div>
           </div>
