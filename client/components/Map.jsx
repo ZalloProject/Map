@@ -3,11 +3,25 @@ import style from './styles.css';
 import { compose, withProps } from 'recompose';
 import { GoogleMap, withGoogleMap, withScriptjs, Circle } from 'react-google-maps';
 import Marker from './Marker.jsx';
-const ZalloMap = ({ houses, lat, lng, hoverChange }) => {
+let count = 0;
+const ZalloMap = ({ houses, lat, lng, hoverChange, tilesLoaded, boundsChange }) => {
   let key = 0;
-  console.log(houses);
+  const refs = {};
   return (
-    <GoogleMap defaultZoom={10} defaultCenter={{ lat, lng }}>
+    <GoogleMap
+      defaultZoom={10}
+      defaultCenter={{ lat, lng }}
+      onTilesLoaded={
+        tilesLoaded ||
+        (() => {
+          console.log('loaded');
+        })
+      }
+      ref={map => {
+        refs.map = map;
+      }}
+      onBoundsChanged={e => boundsChange(refs.map.getBounds().toJSON())}
+    >
       {houses
         ? houses.map(house => {
             return house.lat !== undefined ? (
