@@ -1,12 +1,16 @@
 import React from 'react';
+import _ from 'lodash';
 import style from './styles.css';
 import { compose, withProps } from 'recompose';
 import { GoogleMap, withGoogleMap, withScriptjs, Circle } from 'react-google-maps';
 import Marker from './Marker.jsx';
 let count = 0;
-const ZalloMap = ({ houses, lat, lng, hoverChange, tilesLoaded, boundsChange }) => {
+const ZalloMap = ({ houses, lat, lng, tilesLoaded, boundsChange }) => {
   let key = 0;
   const refs = {};
+  const hoverChange = _.debounce(context => {
+    !document.getElementById('infobox') && context.setState({ hovered: true });
+  }, 300);
   return (
     <GoogleMap
       defaultZoom={10}

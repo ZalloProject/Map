@@ -18,7 +18,7 @@ class CustomMarker extends React.Component {
           position={{ lat: this.props.house.lat, lng: this.props.house.lng }}
           labelAnchor={new google.maps.Point(17, -0.1)}
           onMouseOver={e => {
-            !document.getElementById('infobox') && this.setState({ hovered: true });
+            this.props.hoverChange(this);
           }}
           onMouseOut={e => {
             this.setState({ hovered: false });
@@ -43,8 +43,8 @@ class CustomMarker extends React.Component {
             position={new google.maps.LatLng(this.props.house.lat, this.props.house.lng)}
             options={{
               enableEventPropagation: true,
-              disableAutoPan: true,
-              closeBoxURL: ''
+              disableAutoPan: true
+              // closeBoxURL: ''
             }}
             onCloseClick={e => this.setState({ hovered: false })}
           >

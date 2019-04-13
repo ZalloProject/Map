@@ -10,7 +10,6 @@ class HouseMap extends React.Component {
       houses: props.houses || null,
       filteredHouses: null,
       markerHovered: false,
-      houseView: false,
       filter: null,
       filterDetail: null,
       bounds: null
@@ -24,7 +23,7 @@ class HouseMap extends React.Component {
         .then(houses => this.setState({ houses }))
         .then(() => this.filterHouses())
         .then(() =>
-          window.dispatchEvent(new CustomEvent('houses', { detail: { houses: this.state.houses } }))
+          window.dispatchEvent(new CustomEvent('bounds', { detail: { bounds: this.state.bounds } }))
         );
     }, 1000);
   }
@@ -35,9 +34,6 @@ class HouseMap extends React.Component {
     window.addEventListener('beds_change', e => this.updateFilter(e));
     window.addEventListener('price_change', e => this.updateFilter(e));
     window.addEventListener('options', e => this.updateFilter(e));
-    window.addEventListener('house_view', e => {
-      this.setState({ houseView: e.detail.houseView });
-    });
   }
   updateFilter(e) {
     this.setState({ filter: e.type, filterDetail: e.detail }, () => {
@@ -88,38 +84,6 @@ class HouseMap extends React.Component {
           lng={-111.9}
           boundsChange={this.boundsChange.bind(this)}
         />
-        <div
-          id="mainContainer"
-          className={style.mainContainer}
-          style={
-            this.state.houseView
-              ? {
-                  display: ''
-                }
-              : { display: 'none' }
-          }
-        >
-          <div className={style.bigBOX}>
-            <div id="popContainer">
-              <div id="photos" />
-              <div className={style.containerMid}>
-                <div id="gendesc" />
-                <div id="form-service" />
-              </div>
-              <div id="similar-homes" />
-            </div>
-            <div
-              className={style.xOut}
-              onClick={() =>
-                window.dispatchEvent(
-                  new CustomEvent('house_view', { detail: { houseView: false } })
-                )
-              }
-            >
-              X
-            </div>
-          </div>
-        </div>
       </div>
     );
   }
